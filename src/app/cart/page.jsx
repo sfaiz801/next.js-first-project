@@ -2,16 +2,15 @@
 // src/app/cart/page.jsx
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCartItems, selectCartSubtotal, selectDiscount, selectCoupon, removeFromCart, updateQuantity, applyCoupon, clearCart } from '@/store/slices/cartSlice';
+import {
+  selectCartItems, selectCartSubtotal, selectDiscount, selectCoupon,
+  removeFromCart, updateQuantity, applyCoupon, clearCart
+} from '@/store/slices/cartSlice';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 import Link from 'next/link';
-import { formatUSD } from '@/utils/helpers';
 import { useRouter } from 'next/navigation';
-
-const SHIPPING_THRESHOLD = 50;
-const SHIPPING_COST = 4.99;
-const TAX_RATE = 0.08;
+import { formatUSD } from '@/utils/helpers';
 
 export default function CartPage() {
   const dispatch = useDispatch();
@@ -24,18 +23,18 @@ export default function CartPage() {
 
   const discountAmt = (subtotal * discount) / 100;
   const afterDiscount = subtotal - discountAmt;
-  const shipping = afterDiscount >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
-  const tax = afterDiscount * TAX_RATE;
+  const shipping = afterDiscount >= 50 ? 0 : afterDiscount === 0 ? 0 : 4.99;
+  const tax = afterDiscount * 0.08;
   const total = afterDiscount + shipping + tax;
 
   const handleCoupon = () => {
     if (!couponInput.trim()) return;
     dispatch(applyCoupon(couponInput));
-    const codes = ['SAVE10', 'SAVE20', 'FLAT50'];
-    if (codes.includes(couponInput.toUpperCase())) {
-      toast.success(`Coupon "${couponInput.toUpperCase()}" applied!`);
+    const valid = ['SAVE10', 'SAVE20', 'FLAT50'];
+    if (valid.includes(couponInput.toUpperCase())) {
+      toast.success(`✅ Coupon "${couponInput.toUpperCase()}" applied!`);
     } else {
-      toast.error('Invalid coupon code.');
+      toast.error('❌ Invalid coupon code');
     }
     setCouponInput('');
   };
@@ -52,90 +51,73 @@ export default function CartPage() {
         </div>
       </div>
 
-      <div className="container" style={{ paddingBottom: '4rem' }}>
+      <div className="container pb-5">
         {items.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '5rem 0', color: 'var(--gray)' }}>
-            <div style={{ fontSize: '5rem', marginBottom: '1.5rem' }}>🛒</div>
-            <h3 style={{ fontWeight: 700, marginBottom: '0.75rem' }}>Your cart is empty</h3>
-            <p style={{ marginBottom: '2rem' }}>Add some products and come back here!</p>
-            <Link href="/shop" style={{ background: 'var(--primary)', color: 'white', padding: '0.8rem 2.5rem', borderRadius: 50, fontWeight: 700, textDecoration: 'none' }}>
-              Continue Shopping
-            </Link>
+          <div className="text-center py-5">
+            <div style={{ fontSize: '5rem' }}>🛒</div>
+            <h3 className="fw-bold mt-3 mb-2">Your cart is empty</h3>
+            <p className="text-muted mb-4">Add some products and come back!</p>
+            <Link href="/shop" className="btn btn-primary px-4 py-2 rounded-pill fw-bold">Continue Shopping</Link>
           </div>
         ) : (
           <div className="row g-4">
             {/* Cart Items */}
             <div className="col-lg-8">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h5 style={{ margin: 0, fontWeight: 700 }}>{items.length} item{items.length > 1 ? 's' : ''}</h5>
-                <button
-                  onClick={() => { dispatch(clearCart()); toast.info('Cart cleared'); }}
-                  style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', fontWeight: 600, fontSize: '0.88rem' }}
-                >
-                  🗑️ Clear All
-                </button>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h5 className="fw-bold mb-0">{items.length} item{items.length > 1 ? 's' : ''}</h5>
+                <button onClick={() => { dispatch(clearCart()); toast.info('Cart cleared'); }}
+                  className="btn btn-sm btn-outline-danger">🗑️ Clear All</button>
               </div>
 
               {items.map(item => (
                 <div key={item.id} className="cart-item">
-                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  <div className="d-flex gap-3 align-items-start">
                     <Link href={`/product/${item.id}`} style={{ flexShrink: 0 }}>
-                      <Image src={item.thumbnail} alt={item.title} width={90} height={90} style={{ borderRadius: 8, objectFit: 'cover' }} />
+                      <Image src={item.thumbnail} alt={item.title} width={90} height={90}
+                        style={{ borderRadius: 8, objectFit: 'cover' }} />
                     </Link>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 700, textTransform: 'capitalize', marginBottom: 2 }}>{item.category}</div>
-                      <Link href={`/product/${item.id}`} style={{ textDecoration: 'none' }}>
-                        <h6 style={{ fontWeight: 700, color: 'var(--dark)', marginBottom: '0.4rem', fontSize: '0.95rem' }}>{item.title}</h6>
+                    <div className="flex-fill">
+                      <div style={{ fontSize: '0.72rem', color: 'var(--primary)', fontWeight: 700, textTransform: 'capitalize' }}>{item.category}</div>
+                      <Link href={`/product/${item.id}`}>
+                        <h6 className="fw-bold mb-1 mt-1" style={{ color: 'var(--dark)', fontSize: '0.95rem' }}>{item.title}</h6>
                       </Link>
-                      <div style={{ color: 'var(--primary)', fontWeight: 700, marginBottom: '0.5rem' }}>{formatUSD(item.price)}</div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                      <div className="fw-bold mb-2" style={{ color: 'var(--primary)' }}>{formatUSD(item.price)}</div>
+                      <div className="d-flex align-items-center gap-3 flex-wrap">
                         <div className="qty-control">
                           <button onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }))}>−</button>
                           <span>{item.quantity}</span>
                           <button onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }))}>+</button>
                         </div>
-                        <span style={{ color: 'var(--gray)', fontSize: '0.88rem' }}>
-                          Subtotal: <strong style={{ color: 'var(--dark)' }}>{formatUSD(item.price * item.quantity)}</strong>
+                        <span className="text-muted" style={{ fontSize: '0.88rem' }}>
+                          Total: <strong style={{ color: 'var(--dark)' }}>{formatUSD(item.price * item.quantity)}</strong>
                         </span>
                       </div>
                     </div>
-                    <button
-                      onClick={() => { dispatch(removeFromCart(item.id)); toast.info('Item removed'); }}
-                      style={{ background: 'none', border: 'none', color: 'var(--gray)', cursor: 'pointer', fontSize: '1.1rem', flexShrink: 0 }}
-                      title="Remove"
-                    >🗑️</button>
+                    <button onClick={() => { dispatch(removeFromCart(item.id)); toast.info('Item removed'); }}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gray)', fontSize: '1.1rem' }}>🗑️</button>
                   </div>
                 </div>
               ))}
 
               {/* Coupon */}
-              <div style={{ border: '1px solid var(--border)', borderRadius: 12, padding: '1.25rem', marginTop: '1.5rem' }}>
-                <h6 style={{ fontWeight: 700, marginBottom: '0.75rem' }}>🏷️ Apply Coupon Code</h6>
-                <p style={{ fontSize: '0.82rem', color: 'var(--gray)', marginBottom: '0.75rem' }}>
-                  Try: <strong>SAVE10</strong>, <strong>SAVE20</strong>, or <strong>FLAT50</strong>
-                </p>
+              <div className="border rounded-3 p-3 mt-3">
+                <h6 className="fw-bold mb-1">🏷️ Coupon Code</h6>
+                <p className="text-muted mb-2" style={{ fontSize: '0.82rem' }}>Try: <strong>SAVE10</strong>, <strong>SAVE20</strong>, <strong>FLAT50</strong></p>
                 {coupon && (
-                  <div style={{ background: '#dcfce7', color: '#15803d', padding: '0.5rem 1rem', borderRadius: 8, marginBottom: '0.75rem', fontSize: '0.88rem', fontWeight: 600 }}>
+                  <div className="alert alert-success py-2 mb-2" style={{ fontSize: '0.88rem' }}>
                     ✓ Coupon "{coupon}" applied — {discount}% off!
                   </div>
                 )}
-                <div style={{ display: 'flex', gap: '0.75rem' }}>
-                  <input
-                    type="text"
-                    value={couponInput}
-                    onChange={e => setCouponInput(e.target.value)}
-                    placeholder="Enter coupon code"
-                    className="form-control"
-                    onKeyDown={e => e.key === 'Enter' && handleCoupon()}
-                  />
-                  <button onClick={handleCoupon} style={{ background: 'var(--primary)', color: 'white', border: 'none', padding: '0.6rem 1.5rem', borderRadius: 8, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>
-                    Apply
-                  </button>
+                <div className="d-flex gap-2">
+                  <input type="text" value={couponInput} onChange={e => setCouponInput(e.target.value)}
+                    placeholder="Enter coupon code" className="form-control"
+                    onKeyDown={e => e.key === 'Enter' && handleCoupon()} />
+                  <button onClick={handleCoupon} className="btn btn-primary fw-bold px-3">Apply</button>
                 </div>
               </div>
 
-              <div style={{ marginTop: '1rem' }}>
-                <Link href="/shop" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none', fontSize: '0.9rem' }}>
+              <div className="mt-3">
+                <Link href="/shop" style={{ color: 'var(--primary)', fontWeight: 600, fontSize: '0.9rem' }}>
                   ← Continue Shopping
                 </Link>
               </div>
@@ -144,32 +126,27 @@ export default function CartPage() {
             {/* Order Summary */}
             <div className="col-lg-4">
               <div className="order-summary-box">
-                <h5 style={{ fontWeight: 700, marginBottom: '1.25rem' }}>Order Summary</h5>
+                <h5 className="fw-bold mb-3">Order Summary</h5>
                 <div className="summary-row"><span>Subtotal</span><span>{formatUSD(subtotal)}</span></div>
-                {discount > 0 && <div className="summary-row" style={{ color: '#15803d' }}><span>Discount ({discount}%)</span><span>−{formatUSD(discountAmt)}</span></div>}
+                {discount > 0 && (
+                  <div className="summary-row" style={{ color: '#15803d' }}>
+                    <span>Discount ({discount}%)</span><span>−{formatUSD(discountAmt)}</span>
+                  </div>
+                )}
                 <div className="summary-row">
                   <span>Shipping</span>
                   <span>{shipping === 0 ? <span style={{ color: '#15803d' }}>Free</span> : formatUSD(shipping)}</span>
                 </div>
-                {shipping > 0 && <div style={{ fontSize: '0.78rem', color: 'var(--gray)', marginBottom: '0.5rem' }}>Add {formatUSD(SHIPPING_THRESHOLD - afterDiscount)} more for free shipping</div>}
+                {shipping > 0 && <small className="text-muted d-block mb-1">Add {formatUSD(50 - afterDiscount)} more for free shipping</small>}
                 <div className="summary-row"><span>Tax (8%)</span><span>{formatUSD(tax)}</span></div>
                 <div className="summary-row total"><span>Total</span><span>{formatUSD(total)}</span></div>
-                <button
-                  onClick={() => router.push('/checkout')}
-                  style={{
-                    width: '100%', background: 'var(--primary)', color: 'white',
-                    border: 'none', padding: '0.9rem', borderRadius: 12,
-                    fontWeight: 700, fontSize: '1rem', cursor: 'pointer',
-                    marginTop: '1rem', transition: 'all 0.25s',
-                    boxShadow: '0 4px 14px rgba(37,99,235,0.3)',
-                  }}
-                  onMouseEnter={e => e.target.style.background = 'var(--primary-dark)'}
-                  onMouseLeave={e => e.target.style.background = 'var(--primary)'}
-                >
+                <button onClick={() => router.push('/checkout')}
+                  className="btn btn-primary w-100 fw-bold py-2 mt-3 rounded-3"
+                  style={{ fontSize: '1rem', boxShadow: '0 4px 14px rgba(37,99,235,0.3)' }}>
                   Proceed to Checkout →
                 </button>
-                <div style={{ textAlign: 'center', marginTop: '0.75rem', fontSize: '0.8rem', color: 'var(--gray)' }}>
-                  🔒 Secure checkout · SSL encrypted
+                <div className="text-center mt-2" style={{ fontSize: '0.78rem', color: 'var(--gray)' }}>
+                  🔒 Secure SSL checkout
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
-// src/app/layout.jsx
-import '../styles/globals.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import '../styles/globals.scss';
 import { ToastContainer } from 'react-toastify';
 import ReduxProvider from '@/components/common/ReduxProvider';
 import Header from '@/components/common/Header';

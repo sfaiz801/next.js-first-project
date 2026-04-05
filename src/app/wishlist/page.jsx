@@ -8,15 +8,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { formatUSD } from '@/utils/helpers';
 
+export const metadata = undefined; // client page
+
 export default function WishlistPage() {
   const items = useSelector(selectWishlistItems);
   const dispatch = useDispatch();
 
   const moveToCart = (item) => {
-    const discountedPrice = item.price - (item.price * item.discountPercentage) / 100;
-    dispatch(addToCart({ ...item, price: discountedPrice }));
+    const price = item.price - (item.price * (item.discountPercentage || 0)) / 100;
+    dispatch(addToCart({ ...item, price }));
     dispatch(removeFromWishlist(item.id));
-    toast.success('Moved to cart!');
+    toast.success('Moved to cart! 🛒');
   };
 
   return (
@@ -31,74 +33,58 @@ export default function WishlistPage() {
         </div>
       </div>
 
-      <div className="container" style={{ paddingBottom: '4rem' }}>
+      <div className="container pb-5">
         {items.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '5rem 0', color: 'var(--gray)' }}>
-            <div style={{ fontSize: '5rem', marginBottom: '1.5rem' }}>♡</div>
-            <h3 style={{ fontWeight: 700, marginBottom: '0.75rem' }}>Your wishlist is empty</h3>
-            <p style={{ marginBottom: '2rem' }}>Save your favourite products here and shop later!</p>
-            <Link href="/shop" style={{
-              background: 'var(--primary)', color: 'white',
-              padding: '0.8rem 2.5rem', borderRadius: 50,
-              fontWeight: 700, textDecoration: 'none',
-            }}>Browse Products</Link>
+          <div className="text-center py-5">
+            <div style={{ fontSize: '5rem' }}>♡</div>
+            <h3 className="fw-bold mt-3 mb-2">Your wishlist is empty</h3>
+            <p className="text-muted mb-4">Save your favourite products and shop later!</p>
+            <Link href="/shop" className="btn btn-primary px-4 py-2 rounded-pill fw-bold">
+              Browse Products
+            </Link>
           </div>
         ) : (
           <>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h5 style={{ margin: 0, fontWeight: 700 }}>{items.length} item{items.length > 1 ? 's' : ''} in your wishlist</h5>
-            </div>
+            <p className="text-muted mb-4 fw-semibold">{items.length} item{items.length > 1 ? 's' : ''} saved</p>
             <div className="row g-3">
               {items.map(item => {
-                const discountedPrice = item.price - (item.price * item.discountPercentage) / 100;
+                const price = item.price - (item.price * (item.discountPercentage || 0)) / 100;
                 return (
-                  <div key={item.id} className="col-md-6 col-lg-4">
-                    <div style={{
-                      border: '1px solid var(--border)', borderRadius: 12,
-                      overflow: 'hidden', background: 'var(--white)',
-                      transition: 'all 0.25s', height: '100%',
-                    }}
-                      onMouseEnter={e => e.currentTarget.style.boxShadow = 'var(--shadow-hover)'}
+                  <div key={item.id} className="col-sm-6 col-md-4 col-lg-3">
+                    <div className="card h-100 border" style={{ borderRadius: 12, overflow: 'hidden', transition: 'all 0.25s' }}
+                      onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.14)'}
                       onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
                     >
                       <Link href={`/product/${item.id}`}>
-                        <div style={{ position: 'relative', height: 220, background: 'var(--light-gray)' }}>
-                          <Image src={item.thumbnail} alt={item.title} fill style={{ objectFit: 'cover' }} sizes="400px" />
+                        <div style={{ position: 'relative', height: 200, background: '#f3f4f6' }}>
+                          <Image src={item.thumbnail} alt={item.title} fill style={{ objectFit: 'cover' }} sizes="300px" />
                         </div>
                       </Link>
-                      <div style={{ padding: '1rem' }}>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 700, textTransform: 'capitalize', marginBottom: 4 }}>
+                      <div className="card-body d-flex flex-column">
+                        <div style={{ fontSize: '0.72rem', color: 'var(--primary)', fontWeight: 700, textTransform: 'capitalize', marginBottom: 4 }}>
                           {item.category}
                         </div>
-                        <Link href={`/product/${item.id}`} style={{ textDecoration: 'none' }}>
-                          <h6 style={{ fontWeight: 700, color: 'var(--dark)', marginBottom: '0.6rem' }}>{item.title}</h6>
+                        <Link href={`/product/${item.id}`}>
+                          <h6 className="fw-bold mb-2" style={{ fontSize: '0.9rem', color: 'var(--dark)' }}>
+                            {item.title}
+                          </h6>
                         </Link>
-                        <div style={{ marginBottom: '1rem' }}>
-                          <span style={{ fontWeight: 700, color: 'var(--primary)', fontSize: '1.1rem' }}>{formatUSD(discountedPrice)}</span>
+                        <div className="mb-3">
+                          <span className="fw-bold" style={{ color: 'var(--primary)' }}>{formatUSD(price)}</span>
                           {item.discountPercentage > 1 && (
-                            <span style={{ color: 'var(--gray)', textDecoration: 'line-through', marginLeft: 8, fontSize: '0.85rem' }}>{formatUSD(item.price)}</span>
+                            <span className="text-muted text-decoration-line-through ms-2" style={{ fontSize: '0.82rem' }}>
+                              {formatUSD(item.price)}
+                            </span>
                           )}
                         </div>
-                        <div style={{ display: 'flex', gap: '0.5rem' }}>
-                          <button
-                            onClick={() => moveToCart(item)}
-                            style={{
-                              flex: 1, background: 'var(--primary)', color: 'white', border: 'none',
-                              padding: '0.55rem', borderRadius: 8, fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem',
-                            }}
-                          >
+                        <div className="d-flex gap-2 mt-auto">
+                          <button onClick={() => moveToCart(item)} className="btn btn-primary btn-sm flex-fill fw-bold">
                             Move to Cart
                           </button>
                           <button
-                            onClick={() => { dispatch(removeFromWishlist(item.id)); toast.info('Removed from wishlist'); }}
-                            style={{
-                              background: 'var(--light-gray)', border: '1px solid var(--border)',
-                              padding: '0.55rem 0.75rem', borderRadius: 8, cursor: 'pointer', fontSize: '1rem',
-                            }}
-                            title="Remove"
-                          >
-                            🗑️
-                          </button>
+                            onClick={() => { dispatch(removeFromWishlist(item.id)); toast.info('Removed'); }}
+                            className="btn btn-outline-danger btn-sm"
+                          >🗑️</button>
                         </div>
                       </div>
                     </div>
