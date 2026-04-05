@@ -1,0 +1,27 @@
+// src/app/layout.jsx
+import '../styles/globals.scss';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import ReduxProvider from '@/components/common/ReduxProvider';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
+
+export const metadata = {
+  title: { default: 'ShopNest – Your Online Store', template: '%s | ShopNest' },
+  description: 'Shop the best products at ShopNest – your one-stop online store.',
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <ReduxProvider>
+          <Header />
+          <main style={{ minHeight: '60vh' }}>{children}</main>
+          <Footer />
+          <ToastContainer position="bottom-right" autoClose={2500} hideProgressBar={false} theme="light" />
+        </ReduxProvider>
+      </body>
+    </html>
+  );
+}

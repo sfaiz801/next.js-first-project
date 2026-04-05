@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ShopNest - Next.js First Project
+
+A modern e-commerce application built with Next.js, featuring a complete shopping experience with product catalog, cart management, checkout, and user authentication.
+
+## Project Features
+
+- 🛍️ Product browsing and filtering
+- 🛒 Shopping cart management with Redux
+- ❤️ Wishlist functionality
+- 🔐 User authentication (Sign in, Sign up, Forgot password)
+- 👤 User account management
+- 📦 Order tracking
+- 💳 Checkout process
+- 📱 Responsive design
+
+## Tech Stack
+
+- **Framework:** Next.js (App Router)
+- **Styling:** SCSS
+- **State Management:** Redux
+- **Language:** JavaScript
+
+## Project Structure
+
+```
+shopnest/
+├── src/
+│   ├── app/              # Next.js app directory
+│   ├── components/       # Reusable React components
+│   ├── hooks/            # Custom React hooks
+│   ├── store/            # Redux store and slices
+│   ├── styles/           # Global styles
+│   └── utils/            # Helper functions and API utilities
+├── public/               # Static assets
+└── package.json          # Project dependencies
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd shopnest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-## Learn More
+## Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development Workflow
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Main branch: `main` - Production-ready code
+- Development branch: `develop` - Integration branch for features
+- Feature branches: `feature/*` - Individual feature development
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Create a feature branch from `develop`
+2. Make your changes
+3. Commit with clear, descriptive messages
+4. Push to your branch
+5. Create a Pull Request
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT
