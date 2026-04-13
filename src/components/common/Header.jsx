@@ -65,14 +65,14 @@ export default function Header() {
         <nav className={styles.nav}>
           {/* Logo */}
           <Link href="/" className={styles.logo}>
-            Shop<span>Nest</span>
+            Classic<span>Mart</span>
           </Link>
 
           {/* Desktop Nav Links */}
           <ul className={styles.navLinks}>
             <li><Link href="/">Home</Link></li>
             <li><Link href="/shop">Shop</Link></li>
-            <li><Link href="/shop?category=smartphones">Categories</Link></li>
+            <li><Link href="/categories">Categories</Link></li>
             <li><Link href="/#about">About</Link></li>
             <li><Link href="/#contact">Contact</Link></li>
           </ul>
@@ -139,6 +139,7 @@ export default function Header() {
           <div className={styles.mobileMenu}>
             <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
             <Link href="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
+            <Link href="/categories" onClick={() => setMenuOpen(false)}>Categories</Link>
             <Link href="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist ({wishlistCount})</Link>
             <Link href="/cart" onClick={() => setMenuOpen(false)}>Cart ({cartCount})</Link>
             {isLoggedIn ? (

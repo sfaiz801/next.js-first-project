@@ -2,7 +2,7 @@
 // src/components/home/Testimonials.jsx
 const reviews = [
   { name: 'Aarav Sharma', role: 'Verified Buyer', rating: 5, text: 'Amazing quality products and super fast delivery! I ordered a smartphone and it arrived in just 2 days. Will definitely shop again.', avatar: '👨‍💼' },
-  { name: 'Priya Mehta', role: 'Regular Customer', rating: 5, text: 'ShopNest has the best collection of skincare products. The prices are unbeatable and customer support is very responsive.', avatar: '👩‍🦰' },
+  { name: 'Priya Mehta', role: 'Regular Customer', rating: 5, text: 'ClassicMart has the best collection of skincare products. The prices are unbeatable and customer support is very responsive.', avatar: '👩‍🦰' },
   { name: 'Rohan Verma', role: 'Verified Buyer', rating: 4, text: 'Great experience overall. The product exactly matched the description. Packaging was also very secure. Highly recommended!', avatar: '🧑‍💻' },
   { name: 'Anjali Singh', role: 'Loyal Shopper', rating: 5, text: 'I have been shopping here for 2 years now. Never had a bad experience. The return policy is also very hassle-free.', avatar: '👩‍🎓' },
 ];

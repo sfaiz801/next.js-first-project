@@ -8,8 +8,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { formatUSD } from '@/utils/helpers';
 
-export const metadata = undefined; // client page
-
 export default function WishlistPage() {
   const items = useSelector(selectWishlistItems);
   const dispatch = useDispatch();

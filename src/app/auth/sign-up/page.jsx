@@ -30,7 +30,7 @@ export default function SignUpPage() {
   return (
     <div className="auth-page">
       <div className="auth-card" style={{ maxWidth: 520 }}>
-        <div className="auth-logo">ShopNest</div>
+        <div className="auth-logo">ClassicMart</div>
         <h2 className="auth-title">Create Account</h2>
         <p className="auth-subtitle">Join thousands of happy shoppers today</p>
 

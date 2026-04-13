@@ -9,8 +9,8 @@ import NewsletterSection from '@/components/home/NewsletterSection';
 import { fetchProducts, fetchCategories } from '@/utils/api';
 
 export const metadata = {
-  title: 'ShopNest – Your Online Store | Best Deals & Products',
-  description: 'Shop the best products online at ShopNest. Explore trending products, new arrivals, and exclusive deals.',
+  title: 'ClassicMart – Your Online Store | Best Deals & Products',
+  description: 'Shop the best products online at ClassicMart. Explore trending products, new arrivals, and exclusive deals.',
 };
 
 export default async function HomePage() {

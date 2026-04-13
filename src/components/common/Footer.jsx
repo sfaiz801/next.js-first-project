@@ -19,7 +19,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="col-lg-3 col-md-6">
             <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', marginBottom: '0.75rem' }}>
-              Shop<span style={{ color: '#3b82f6' }}>Nest</span>
+              Classic<span style={{ color: '#3b82f6' }}>Mart</span>
             </div>
             <p style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>
               Your trusted online shopping destination. Quality products, best prices, fast delivery.
@@ -90,7 +90,7 @@ export default function Footer() {
         </div>
 
         <div style={{ borderTop: '1px solid #1f2937', padding: '1.5rem 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
-          <p style={{ margin: 0, fontSize: '0.85rem' }}>© {new Date().getFullYear()} ShopNest. All rights reserved.</p>
+          <p style={{ margin: 0, fontSize: '0.85rem' }}>© {new Date().getFullYear()} ClassicMart. All rights reserved.</p>
           <div style={{ display: 'flex', gap: '1.5rem' }}>
             {['Privacy Policy', 'Terms of Use', 'Sitemap'].map((l, i) => (
               <a key={i} href="#" style={{ color: '#9ca3af', fontSize: '0.82rem', textDecoration: 'none' }}>{l}</a>

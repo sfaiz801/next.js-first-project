@@ -33,7 +33,7 @@ export default function SignInPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo">ShopNest</div>
+        <div className="auth-logo">ClassicMart</div>
         <h2 className="auth-title">Welcome Back</h2>
         <p className="auth-subtitle">Sign in to your account to continue</p>
 

@@ -7,8 +7,8 @@ import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 
 export const metadata = {
-  title: { default: 'ShopNest – Your Online Store', template: '%s | ShopNest' },
-  description: 'Shop the best products at ShopNest – your one-stop online store.',
+  title: { default: 'ClassicMart – Your Online Store', template: '%s | ClassicMart' },
+  description: 'Shop the best products at ClassicMart – your one-stop online store.',
 };
 
 export default function RootLayout({ children }) {

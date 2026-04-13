@@ -5,7 +5,7 @@ import { fetchProductById } from '@/utils/api';
 export async function generateMetadata({ params }) {
   const product = await fetchProductById(params.id);
   return {
-    title: `${product.title} – ShopNest`,
+    title: `${product.title} – ClassicMart`,
     description: product.description,
   };
 }

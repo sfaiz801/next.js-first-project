@@ -51,8 +51,19 @@ export const registerUser = async (userData) => {
 };
 
 export const loginUserApi = async ({ email, password }) => {
-  const res = await axios.get(`${MOCK_BASE}/users`);
-  const user = res.data.find(u => u.email === email && u.password === password);
+  // Test data for login
+  const testUsers = [
+    { 
+      id: 1, 
+      email: 'siddiquefaiz521@gmail.com', 
+      password: 'Faiz@2008', 
+      firstName: 'Faiz', 
+      lastName: 'Shaikh',
+      phone: '1234567890'
+    }
+  ];
+
+  const user = testUsers.find(u => u.email === email && u.password === password);
   if (!user) throw new Error('Invalid email or password');
   return user;
 };

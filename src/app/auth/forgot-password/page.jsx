@@ -21,7 +21,7 @@ export default function ForgotPasswordPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo">ShopNest</div>
+        <div className="auth-logo">ClassicMart</div>
         <h2 className="auth-title">Forgot Password</h2>
         <p className="auth-subtitle">Enter your email to receive a reset link</p>
 
